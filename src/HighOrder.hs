@@ -18,6 +18,32 @@ tryZipWithMe = [
         [concat $ zipWithMe (\x y -> x:[y]) "Imhpy" "' ap!"]
     ]
 
+myFlip :: (a -> b -> c) -> (b -> a -> c)
+myFlip f y x = f x y
+
+tryMyFlip = [
+        map show $ myFlip zip [1, 2, 3] "hello",
+        myFlip (zipWithMe (\x y -> x:[y])) ['1', '2', '3'] "hello"
+    ]
+
+myFilter :: (a -> Bool) -> [a] -> [a]
+myFilter _ [] = []
+myFilter p (x:xs)
+    | p x = x:rest
+    | otherwise = rest
+    where rest = myFilter p xs
+
+myFilter' :: (a -> Bool) -> [a] -> [a]
+myFilter' _ [] = []
+myFilter' p (x:xs) = if p x then x:rest else rest
+    where rest = myFilter p xs
+
+tryMyFilter = [
+        myFilter (>5) [1,2,5,9,10],
+        myFilter (5>) [1,2,5,9,10],
+        myFilter' (>5) [1,2,5,9,10],
+        myFilter' (5>) [1,2,5,9,10]
+    ]
 
 printListWithTitle :: (Show a) => String -> [a] -> IO [()]
 printListWithTitle title list =
@@ -27,3 +53,5 @@ printListWithTitle title list =
 main = do
     printListWithTitle "applyTwice" tryApplyTwice
     printListWithTitle "zipWithMe" tryZipWithMe
+    printListWithTitle "myFlip" tryMyFlip
+    printListWithTitle "myFilter" tryMyFilter
