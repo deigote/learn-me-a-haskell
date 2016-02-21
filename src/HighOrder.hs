@@ -57,6 +57,22 @@ tryQuickSort = [
         quickSort "chachi que si"
     ]
 
+myTakeWhile :: (a -> Bool) -> [a] -> [a]
+myTakeWhile _ [] = []
+myTakeWhile p (x:xs)
+    | p x = x:myTakeWhile p xs
+    | otherwise = []
+
+sumAllOddSquaresSmallerThan :: Int -> Int
+sumAllOddSquaresSmallerThan x = sum $ takeWhile (<x) (filter odd (map (^2) [1..]))
+
+sumAllOddSquaresSmallerThan' :: Int -> Int
+sumAllOddSquaresSmallerThan' x = sum $ takeWhile (<x) [n | n <- map (^2) [1..x], odd n]
+
+tryMyTakeWhile = [
+        sumAllOddSquaresSmallerThan 10000,
+        sumAllOddSquaresSmallerThan' 10000
+    ]
 
 printListWithTitle :: (Show a) => String -> [a] -> IO [()]
 printListWithTitle title list =
@@ -69,3 +85,4 @@ main = do
     printListWithTitle "myFlip" tryMyFlip
     printListWithTitle "myFilter" tryMyFilter
     printListWithTitle "quickSort" tryQuickSort
+    printListWithTitle "myTakeWhile" tryMyTakeWhile
