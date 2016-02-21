@@ -45,6 +45,19 @@ tryMyFilter = [
         myFilter' (5>) [1,2,5,9,10]
     ]
 
+quickSort :: (Ord a) => [a] -> [a]
+quickSort [] = []
+quickSort (x:xs) =
+    let bigger = myFilter (>=x) xs
+        smaller = myFilter (x>) xs
+    in  (quickSort smaller) ++ x:(quickSort bigger)
+
+tryQuickSort = [
+        concat $ map show $ quickSort [5,3,1,2,8,4,3,1],
+        quickSort "chachi que si"
+    ]
+
+
 printListWithTitle :: (Show a) => String -> [a] -> IO [()]
 printListWithTitle title list =
     let formattedTitle = " - " ++ title ++ ":"
@@ -55,3 +68,4 @@ main = do
     printListWithTitle "zipWithMe" tryZipWithMe
     printListWithTitle "myFlip" tryMyFlip
     printListWithTitle "myFilter" tryMyFilter
+    printListWithTitle "quickSort" tryQuickSort
