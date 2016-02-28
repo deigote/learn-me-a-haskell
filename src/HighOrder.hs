@@ -74,6 +74,27 @@ tryMyTakeWhile = [
         sumAllOddSquaresSmallerThan' 10000
     ]
 
+collatzNext :: (Integral a) => a -> a
+collatzNext x
+    | odd x = x * 3 + 1
+    | otherwise = x `div` 2
+
+collatzSequence :: (Integral a) => a -> [a]
+collatzSequence 1 = [1]
+collatzSequence x = x:(collatzSequence $ collatzNext x)
+
+collatzLenghtGreaterThan  :: (Integral a) => a -> Int -> Int
+collatzLenghtGreaterThan maxSeed minLength = length $ filter gtMinLength (map collatzSequence [1..maxSeed])
+    where gtMinLength x = length x > minLength
+
+tryCollatzSequence = map collatzSequence [4,30,200]
+
+tryCollatzLenghtGreaterThan = [
+        collatzLenghtGreaterThan 100 15,
+        collatzLenghtGreaterThan 1000 15,
+        collatzLenghtGreaterThan 10000 15
+    ]
+
 printListWithTitle :: (Show a) => String -> [a] -> IO [()]
 printListWithTitle title list =
     let formattedTitle = " - " ++ title ++ ":"
@@ -86,3 +107,5 @@ main = do
     printListWithTitle "myFilter" tryMyFilter
     printListWithTitle "quickSort" tryQuickSort
     printListWithTitle "myTakeWhile" tryMyTakeWhile
+    printListWithTitle "collatzSequence" tryCollatzSequence
+    printListWithTitle "collatzLenghtGreaterThan" tryCollatzLenghtGreaterThan
