@@ -95,6 +95,25 @@ tryCollatzLenghtGreaterThan = [
         collatzLenghtGreaterThan 10000 15
     ]
 
+howManyForTheSumOfRootsOfNumbersToExceed :: Float -> Int
+howManyForTheSumOfRootsOfNumbersToExceed x = length $ takeWhile (<=x) (scanl (+) 0 (map sqrt [1..]))
+
+tryHowManyForTheSumOfRootsOfNumbersToExceed = [
+        howManyForTheSumOfRootsOfNumbersToExceed 10,
+        howManyForTheSumOfRootsOfNumbersToExceed 1000
+    ]
+
+sumOfOddSquaresSmallerThan :: Int -> Int
+sumOfOddSquaresSmallerThan x = sum $ takeWhile (<x) (filter odd (map (^2) [0..]))
+
+sumOfOddSquaresSmallerThan' :: Int -> Int
+sumOfOddSquaresSmallerThan' x = sum $ takeWhile (<x) . filter odd . map (^2) $ [0..]
+
+trySumOfOddSquaresSmallerThan = [
+        sumOfOddSquaresSmallerThan 10000,
+        sumOfOddSquaresSmallerThan' 10000
+    ]
+
 printListWithTitle :: (Show a) => String -> [a] -> IO [()]
 printListWithTitle title list =
     let formattedTitle = " - " ++ title ++ ":"
@@ -109,3 +128,5 @@ main = do
     printListWithTitle "myTakeWhile" tryMyTakeWhile
     printListWithTitle "collatzSequence" tryCollatzSequence
     printListWithTitle "collatzLenghtGreaterThan" tryCollatzLenghtGreaterThan
+    printListWithTitle "howManyForTheSumOfRootsOfNumbersToExceed" tryHowManyForTheSumOfRootsOfNumbersToExceed
+    printListWithTitle "sumOfOddSquaresSmallerThan" trySumOfOddSquaresSmallerThan
